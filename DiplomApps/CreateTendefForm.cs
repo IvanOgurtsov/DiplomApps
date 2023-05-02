@@ -22,7 +22,9 @@ namespace DiplomApps
 
 			
 
-			connection = new HubConnectionBuilder().WithUrl().Build();
+			connection = new HubConnectionBuilder().
+				WithUrl("https://localhost:7098/chat").
+				Build();
 
 			LoadData();
 		}
@@ -89,8 +91,8 @@ namespace DiplomApps
 					Status = "Активный"
 				};
 
-				await _hubConnection.Start();
-				await _hubProxy.Invoke("UpdateTender", tender);
+				//await _hubConnection.Start();
+				//await _hubProxy.Invoke("UpdateTender", tender);
 
 				UpdateData();
 
@@ -166,7 +168,7 @@ namespace DiplomApps
 					MessageBox.Show("Вы успешно поменяли статус тендера!", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 					var tender = new Tender { Id = id, Status = newStatus };
-					await _hubProxy.Invoke("UpdateTender", tender);
+					//await _hubProxy.Invoke("UpdateTender", tender);
 				}
 				else if (currentStatus == "Завершенный")
 				{
@@ -183,7 +185,7 @@ namespace DiplomApps
 					MessageBox.Show("Вы успешно поменяли статус тендера!", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 					var tender = new Tender { Id = id, Status = newStatus };
-					await _hubProxy.Invoke("UpdateTender", tender);
+					//await _hubProxy.Invoke("UpdateTender", tender);
 				}
 				UpdateData();
 			}
@@ -248,7 +250,7 @@ namespace DiplomApps
 					};
 
 					// Вызов метода UpdateTender в хабе SignalR
-					await _hubProxy.Invoke("UpdateTender", tender);
+					//await _hubProxy.Invoke("UpdateTender", tender);
 
 				}
 				catch
@@ -296,7 +298,7 @@ namespace DiplomApps
 					SQLiteCommand command = new(delete, connection);
 					command.ExecuteNonQuery();
 
-					await _hubProxy.Invoke("UpdateTender", new Tender());
+					//await _hubProxy.Invoke("UpdateTender", new Tender());
 
 					_gridTender.Rows.Remove(_gridTender.SelectedRows[0]);
 					UpdateData();
